@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<test-run id="0" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1" portable-engine-version="3.3.0.0" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.350496">
+  <test-suite type="Assembly" id="1002" name="AspNetCore.WebAPI.UT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" fullname="AspNetCore.WebAPI.UT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.240369" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+    <settings>
+      <setting name="WorkDirectory" value="c:\Users\Arthur Chang\Desktop\AspNetCoreSample\AspNetCore.WebAPI.UT" />
+    </settings>
+    <test-suite type="TestSuite" id="1003" name="AspNetCore" fullname="AspNetCore" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.231980" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+      <test-suite type="TestSuite" id="1004" name="WebAPI" fullname="AspNetCore.WebAPI" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.231792" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+        <test-suite type="TestSuite" id="1005" name="UT" fullname="AspNetCore.WebAPI.UT" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.231691" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+          <test-suite type="TestFixture" id="1000" name="Class" fullname="AspNetCore.WebAPI.UT.Class" classname="AspNetCore.WebAPI.UT.Class" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.229336" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+            <test-case id="1001" name="TestExpectedToPass2" fullname="AspNetCore.WebAPI.UT.Class.TestExpectedToPass2" methodname="TestExpectedToPass2" classname="AspNetCore.WebAPI.UT.Class" runstate="Runnable" seed="1349358143" result="Passed" start-time="2016-07-13 02:24:17Z" end-time="2016-07-13 02:24:17Z" duration="0.186118" asserts="1" />
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 
-namespace AspNetCoreSample.WebAPI
+namespace AspNetCore.WebAPI
 {
     public class Program
     {

@@ -7,14 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCoreSample.WebAPI
+namespace AspNetCore.WebAPI
 {
-    public partial class Startup
+    public class Startup
     {
         public Startup(IHostingEnvironment env)
         {

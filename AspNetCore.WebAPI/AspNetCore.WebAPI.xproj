@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>7b9255a5-dce4-4ece-bb12-e9f22174c25f</ProjectGuid>
-    <RootNamespace>AspNetCoreSample.WebAPI</RootNamespace>
+    <ProjectGuid>da693f77-a7ea-450d-8ff6-676bc7b3e850</ProjectGuid>
+    <RootNamespace>AspNetCore.WebAPI</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

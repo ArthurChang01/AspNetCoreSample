@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCoreSample.WebAPI.Controllers
+namespace AspNetCore.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

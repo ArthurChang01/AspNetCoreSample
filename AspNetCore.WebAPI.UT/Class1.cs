@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCoreSample.UT
+namespace AspNetCore.WebAPI.UT
 {
     public interface IMy
     {
@@ -16,7 +16,7 @@ namespace AspNetCoreSample.UT
     public class Class
     {
         [Test]
-        public async Task TestExpectedToPass()
+        public async Task TestExpectedToPass2()
         {
             string output = "";
             var mock = new Mock<IMy>();

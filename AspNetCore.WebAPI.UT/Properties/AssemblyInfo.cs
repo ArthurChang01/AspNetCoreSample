@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AspNetCoreSample.UT")]
+[assembly: AssemblyProduct("AspNetCore.WebAPI.UT")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("094cd149-0c37-4527-bc23-8683bf2f3a39")]
+[assembly: Guid("50f35bcd-5a64-4359-83fe-2552d958bd29")]
