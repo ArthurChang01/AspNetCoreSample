@@ -1,0 +1,23 @@
+﻿{
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0",
+      "type": "platform"
+    },
+    "NUnit": "3.4.1",
+    "Moq": "4.6.25-alpha",
+    "dotnet-test-nunit": "3.4.0-beta-1",
+    "FluentAssertions": "4.11.0",
+    "System.Diagnostics.TraceSource": "4.0.0"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "portable-net45+win8"
+      ]
+    }
+  },
+  "testRunner": "nunit",
+  "version": "1.0.0-*"
+}
