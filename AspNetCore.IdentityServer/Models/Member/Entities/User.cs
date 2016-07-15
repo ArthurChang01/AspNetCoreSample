@@ -1,4 +1,4 @@
-﻿namespace AspNetCore.IdentityServer.Models.Member
+﻿namespace AspNetCore.IdentityServer.Models.Member.Entities
 {
     public class User
     {

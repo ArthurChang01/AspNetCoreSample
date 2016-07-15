@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspNetCore.IdentityServer.Models.Member.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCore.IdentityServer.Models.Member
+namespace AspNetCore.IdentityServer.Models.Member.Repository
 {
     public class MemberRepository : IMemberRepository
     {

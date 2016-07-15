@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCore.IdentityServer.Models.Member
+namespace AspNetCore.IdentityServer.Models.Member.Entities
 {
     public class Account
     {
