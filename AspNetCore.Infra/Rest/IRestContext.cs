@@ -25,7 +25,7 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        Task Delete(string resourceUrl = "");
+        Task<HttpResponseMessage> Delete(string resourceUrl = "");
 
         /// <summary>
         /// Http Get方法

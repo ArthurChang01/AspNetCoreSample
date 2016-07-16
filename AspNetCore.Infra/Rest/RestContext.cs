@@ -64,7 +64,7 @@ namespace AspNetCore.Infra.Rest
         /// <param name="method">HttpMethod(Get, Post, Put, Delete)</param>
         /// <param name="hasResult">是否有回傳值</param>
         /// <returns>Response</returns>
-        private async Task<HttpResponseMessage> SendRequest(string resourceUrl, HttpMethod method, bool hasResult = true)
+        private async Task<HttpResponseMessage> SendRequest(string resourceUrl, HttpMethod method)
         {
             HttpResponseMessage resp = null;
 
@@ -270,16 +270,20 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        public async Task Delete(string resourceUrl = "")
+        public async Task<HttpResponseMessage> Delete(string resourceUrl = "")
         {
+            HttpResponseMessage resp = null;
+
             try
             {
-                await this.SendRequest(resourceUrl, HttpMethod.Delete);
+                resp = await this.SendRequest(resourceUrl, HttpMethod.Delete);
             }
             catch (Exception)
             {
                 throw;
             }
+
+            return resp;
         }
 
         #endregion Http
