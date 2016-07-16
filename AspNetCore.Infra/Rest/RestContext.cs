@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,101 +13,152 @@ namespace AspNetCore.Infra.Rest
     public class RestContext
     {
         private string _baseUrl = string.Empty;
+
+        private IDictionary<string, object> _qryString = new Dictionary<string, object>();
+        private IDictionary<string, object> _header = new Dictionary<string, object>();
+
+        private StringContent _body = null;
+        private CookieContainer _coockie = null;
+        private HttpClientHandler _handler = null;
         private HttpClient _client = null;
 
         public RestContext(string baseUrl)
         {
             this._baseUrl = baseUrl;
-            this._client = new HttpClient();
+
+            this._coockie = new CookieContainer();
+            this._handler = new HttpClientHandler() { CookieContainer = this._coockie };
+
+            this._client = new HttpClient(this._handler);
             this._client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        protected HttpRequestMessage CreateRequest(string resourceUrl, HttpMethod httpMethod, IDictionary<string, object> param = null, IDictionary<string, object> header = null)
+        private async Task<T> SendRequest<T>(string resourceUrl, HttpMethod method, bool hasResult = true)
+        {
+            T result = default(T);
+
+            HttpRequestMessage req = CreateRequest(resourceUrl, method);
+
+            using (this._client)
+            {
+                HttpResponseMessage resp = await this._client.SendAsync(req);
+                if (resp.IsSuccessStatusCode && hasResult)
+                {
+                    string strResult = await resp.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<T>(strResult);
+                }
+                else if (hasResult)
+                    throw new Exception(string.Format("{0} operation is fail!", method));
+            }
+
+            return result;
+        }
+
+        protected HttpRequestMessage CreateRequest(string resourceUrl, HttpMethod httpMethod)
         {
             HttpRequestMessage req = new HttpRequestMessage();
 
-            string strUrlTemplate = param != null ?
-                string.Format("{0}/{1}?{2}", this._baseUrl, resourceUrl, string.Join("&", param.Select(o => string.Format("{0}={1}", o.Key, o.Value.ToString())))) :
+            string strUrlTemplate = _qryString.Count > 0 ?
+                string.Format("{0}/{1}?{2}", this._baseUrl, resourceUrl, string.Join("&", _qryString.Select(o => string.Format("{0}={1}", o.Key, o.Value.ToString())))) :
                 string.Format("{0}/{1}", this._baseUrl, resourceUrl);
 
             req.RequestUri = new Uri(strUrlTemplate);
             req.Method = httpMethod;
 
-            if (header == null || header.Count == 0)
-                return req;
-
-            foreach (KeyValuePair<string, object> kv in header)
+            foreach (KeyValuePair<string, object> kv in _header)
             {
                 req.Headers.Add(kv.Key, kv.Value.ToString());
             }
 
+            if (this._body != null)
+                req.Content = this._body;
+
             return req;
         }
 
-        public async Task<T> Get<T>(string resourceUrl, IDictionary<string, object> param = null, IDictionary<string, object> header = null)
+        public RestContext SetBody(object content)
+        {
+            this._body = new StringContent(JsonConvert.SerializeObject(content));
+            return this;
+        }
+
+        public RestContext SetQueryString(string name, object value)
+        {
+            this._qryString.Add(name, value);
+            return this;
+        }
+
+        public RestContext SetHeader(string name, string value)
+        {
+            this._header.Add(name, value);
+            return this;
+        }
+
+        public RestContext SetCoockies(string name, string value)
+        {
+            this._coockie.Add(new Uri(this._baseUrl), new Cookie(name, value));
+            return this;
+        }
+
+        public async Task<T> Get<T>(string resourceUrl = "")
         {
             T result = default(T);
 
-            HttpRequestMessage req = CreateRequest(resourceUrl, HttpMethod.Get, param, header);
-
-            using (this._client)
+            try
             {
-                HttpResponseMessage resp = await this._client.SendAsync(req);
-                if (resp.IsSuccessStatusCode)
-                {
-                    string strResult = await resp.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<T>(strResult);
-                }
-                else
-                    throw new Exception("Http Get operation is fail");
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
             return result;
         }
 
-        public async Task<Tout> Post<Tin, Tout>(string resourceUrl, Tin param, IDictionary<string, object> header = null)
+        public async Task<T> Post<T>(string resourceUrl = "")
         {
-            Tout result = default(Tout);
+            T result = default(T);
 
-            HttpRequestMessage req = CreateRequest(resourceUrl, HttpMethod.Post, header: header);
-            req.Content = new StringContent(JsonConvert.SerializeObject(param));
-
-            using (this._client)
+            try
             {
-                HttpResponseMessage resp = await this._client.SendAsync(req);
-                if (resp.IsSuccessStatusCode)
-                {
-                    string strResult = await resp.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<Tout>(strResult);
-                }
-                else
-                    throw new Exception("Http Post operation is fail");
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
             return result;
         }
 
-        public async Task<Tout> Put<Tin, Tout>(string resourceUrl, Tin param, IDictionary<string, object> queryString = null, IDictionary<string, object> header = null)
+        public async Task<T> Put<T>(string resourceUrl = "")
         {
-            Tout result = default(Tout);
+            T result = default(T);
 
-            HttpRequestMessage req = CreateRequest(resourceUrl, HttpMethod.Put, queryString, header);
-            req.Content = new StringContent(JsonConvert.SerializeObject(param));
-
-            using (this._client)
+            try
             {
-                HttpResponseMessage resp = await this._client.SendAsync(req);
-                if (resp.IsSuccessStatusCode)
-                {
-                    string strResult = await resp.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<Tout>(strResult);
-                }
-                else
-                    throw new Exception("Http Put operation is fail");
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
             return result;
+        }
+
+        public async Task Delete(string resourceUrl = "")
+        {
+            try
+            {
+                await this.SendRequest<object>(resourceUrl, HttpMethod.Delete, false);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
