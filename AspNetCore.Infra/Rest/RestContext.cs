@@ -10,22 +10,44 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Infra.Rest
 {
-    public class RestContext
+    public class RestContext : IRestContext
     {
+        #region 私有成員
+
+        //請求的基礎位址
         private string _baseUrl = string.Empty;
 
+        //QueryString字典集合
         private IDictionary<string, object> _qryString = new Dictionary<string, object>();
+
+        //Header字典集合
         private IDictionary<string, object> _header = new Dictionary<string, object>();
 
+        //請求的Body
         private StringContent _body = null;
+
+        //Coockie容器
         private CookieContainer _coockie = null;
+
         private HttpClientHandler _handler = null;
         private HttpClient _client = null;
+
+        #endregion 私有成員
 
         public RestContext(string baseUrl)
         {
             this._baseUrl = baseUrl;
 
+            ConcretHttpClient();
+        }
+
+        #region 私有方法
+
+        /// <summary>
+        /// 組態和創建HttpClient相關物件
+        /// </summary>
+        private void ConcretHttpClient()
+        {
             this._coockie = new CookieContainer();
             this._handler = new HttpClientHandler() { CookieContainer = this._coockie };
 
@@ -34,28 +56,39 @@ namespace AspNetCore.Infra.Rest
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        private async Task<T> SendRequest<T>(string resourceUrl, HttpMethod method, bool hasResult = true)
+        /// <summary>
+        /// 傳送請求
+        /// </summary>
+        /// <typeparam name="T">Response型別</typeparam>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <param name="method">HttpMethod(Get, Post, Put, Delete)</param>
+        /// <param name="hasResult">是否有回傳值</param>
+        /// <returns>Response</returns>
+        private async Task<HttpResponseMessage> SendRequest(string resourceUrl, HttpMethod method, bool hasResult = true)
         {
-            T result = default(T);
+            HttpResponseMessage resp = null;
 
             HttpRequestMessage req = CreateRequest(resourceUrl, method);
 
-            using (this._client)
+            try
             {
-                HttpResponseMessage resp = await this._client.SendAsync(req);
-                if (resp.IsSuccessStatusCode && hasResult)
-                {
-                    string strResult = await resp.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<T>(strResult);
-                }
-                else if (hasResult)
-                    throw new Exception(string.Format("{0} operation is fail!", method));
+                resp = await this._client.SendAsync(req);
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
-            return result;
+            return resp;
         }
 
-        protected HttpRequestMessage CreateRequest(string resourceUrl, HttpMethod httpMethod)
+        /// <summary>
+        /// 創建HttpRequestMessage物件
+        /// </summary>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <param name="httpMethod">Http Method(Get, Post, Put, Delete)</param>
+        /// <returns>HttpRequestMessage物件</returns>
+        private HttpRequestMessage CreateRequest(string resourceUrl, HttpMethod httpMethod)
         {
             HttpRequestMessage req = new HttpRequestMessage();
 
@@ -77,88 +110,189 @@ namespace AspNetCore.Infra.Rest
             return req;
         }
 
-        public RestContext SetBody(object content)
+        #endregion 私有方法
+
+        #region 公開方法
+
+        #region 組態
+
+        /// <summary>
+        /// 設定請求基礎位址
+        /// </summary>
+        /// <param name="baseUrl">基礎位址</param>
+        /// <returns>RestContext實體</returns>
+        public RestContext SetBaseAddress(string baseUrl)
         {
-            this._body = new StringContent(JsonConvert.SerializeObject(content));
+            ConcretHttpClient();
+            this._baseUrl = baseUrl;
+
             return this;
         }
 
+        /// <summary>
+        /// 設定Body資訊
+        /// </summary>
+        /// <param name="content">參數物件</param>
+        /// <returns>RestContext實體</returns>
+        public RestContext SetBody(object content)
+        {
+            this._body = new StringContent(
+                JsonConvert.SerializeObject(content),
+                Encoding.UTF8,
+                "application/json");
+
+            return this;
+        }
+
+        /// <summary>
+        /// 設定QueryString資訊
+        /// </summary>
+        /// <param name="name">參數名稱</param>
+        /// <param name="value">參數值</param>
+        /// <returns>RestContext實體</returns>
         public RestContext SetQueryString(string name, object value)
         {
             this._qryString.Add(name, value);
             return this;
         }
 
+        /// <summary>
+        /// 設定標頭
+        /// </summary>
+        /// <param name="name">參數名稱</param>
+        /// <param name="value">參數值</param>
+        /// <returns>RestContext實體</returns>
         public RestContext SetHeader(string name, string value)
         {
             this._header.Add(name, value);
             return this;
         }
 
+        /// <summary>
+        /// 設定Coockie
+        /// </summary>
+        /// <param name="name">名稱</param>
+        /// <param name="value">值</param>
+        /// <returns>RestContext實體</returns>
         public RestContext SetCoockies(string name, string value)
         {
             this._coockie.Add(new Uri(this._baseUrl), new Cookie(name, value));
             return this;
         }
 
-        public async Task<T> Get<T>(string resourceUrl = "")
+        /// <summary>
+        /// 清除QueryString/Body
+        /// </summary>
+        /// <returns>RestContext實體</returns>
+        public RestContext CleanParameter()
         {
-            T result = default(T);
+            this._qryString.Clear();
+
+            if (this._body != null)
+                this._body.Dispose();
+
+            return this;
+        }
+
+        #endregion 組態
+
+        #region Http
+
+        /// <summary>
+        /// Http Get方法
+        /// </summary>
+        /// <typeparam name="T">Response資料型別</typeparam>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <returns>Response</returns>
+        public async Task<HttpResponseMessage> Get(string resourceUrl = "")
+        {
+            HttpResponseMessage resp = null;
 
             try
             {
-                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+                resp = await this.SendRequest(resourceUrl, HttpMethod.Get);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
 
-            return result;
+            return resp;
         }
 
-        public async Task<T> Post<T>(string resourceUrl = "")
+        /// <summary>
+        /// Http Post方法
+        /// </summary>
+        /// <typeparam name="T">Response資料型別</typeparam>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <returns>Response</returns>
+        public async Task<HttpResponseMessage> Post(string resourceUrl = "")
         {
-            T result = default(T);
+            HttpResponseMessage resp = null;
 
             try
             {
-                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+                resp = await this.SendRequest(resourceUrl, HttpMethod.Post);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
 
-            return result;
+            return resp;
         }
 
-        public async Task<T> Put<T>(string resourceUrl = "")
+        /// <summary>
+        /// Http Put方法
+        /// </summary>
+        /// <typeparam name="T">Response資料型別</typeparam>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <returns>Response</returns>
+        public async Task<HttpResponseMessage> Put(string resourceUrl = "")
         {
-            T result = default(T);
+            HttpResponseMessage resp = null;
 
             try
             {
-                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
+                resp = await this.SendRequest(resourceUrl, HttpMethod.Put);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
 
-            return result;
+            return resp;
         }
 
+        /// <summary>
+        /// Http Delete方法
+        /// </summary>
+        /// <typeparam name="T">Response資料型別</typeparam>
+        /// <param name="resourceUrl">資源Url</param>
+        /// <returns>Response</returns>
         public async Task Delete(string resourceUrl = "")
         {
             try
             {
-                await this.SendRequest<object>(resourceUrl, HttpMethod.Delete, false);
+                await this.SendRequest(resourceUrl, HttpMethod.Delete);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        #endregion Http
+
+        public void Dispose()
+        {
+            this.CleanParameter();
+
+            this._handler.Dispose();
+
+            this._client.Dispose();
+        }
+
+        #endregion 公開方法
     }
 }
