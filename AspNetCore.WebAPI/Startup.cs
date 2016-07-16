@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.Swagger.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +31,23 @@ namespace AspNetCore.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var pathToDoc = $"{Directory.GetCurrentDirectory()}{ Configuration["Swagger:Path"]}";
+
             // Add framework services.
             services.AddMvc();
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(opt =>
+            {
+                opt.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "AspNetCoreSample",
+                    Description = "A simple ASP.Net Core WebAPI smaple",
+                    TermsOfService = "ASP.Net Core"
+                });
+                opt.IncludeXmlComments(pathToDoc);
+                opt.DescribeAllEnumsAsStrings();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +59,9 @@ namespace AspNetCore.WebAPI
             ConfigureAuth(app);
 
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
 
         // The secret key every token will be signed with.

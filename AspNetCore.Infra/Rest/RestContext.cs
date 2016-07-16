@@ -34,12 +34,20 @@ namespace AspNetCore.Infra.Rest
 
         #endregion 私有成員
 
+        #region 建構子
+
+        public RestContext()
+        {
+        }
+
         public RestContext(string baseUrl)
         {
             this._baseUrl = baseUrl;
 
             ConcretHttpClient();
         }
+
+        #endregion 建構子
 
         #region 私有方法
 

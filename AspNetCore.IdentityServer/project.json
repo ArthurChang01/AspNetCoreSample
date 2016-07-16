@@ -23,7 +23,10 @@
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
-    "AspNetCore.Infra": "1.0.0-*"
+    "Swashbuckle.SwaggerGen": "6.0.0-beta901",
+    "Swashbuckle.SwaggerUi": "6.0.0-beta901",
+    "AspNetCore.Infra": "1.0.0-*",
+    "AspNetCore.Proxy": "1.0.0-*"
   },
   "tooling": {
     "defaultNamespace": "SimpleTokenProvider.Test"
@@ -43,7 +46,8 @@
   },
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "xmlDoc": true
   },
 
   "runtimeOptions": {

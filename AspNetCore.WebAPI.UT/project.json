@@ -10,6 +10,7 @@
     "Moq": "4.6.25-alpha",
     "dotnet-test-nunit": "3.4.0-beta-1",
     "FluentAssertions": "4.11.0",
+    "Microsoft.AspNetCore.TestHost": "1.0.0",
     "System.Diagnostics.TraceSource": "4.0.0",
     "AspNetCore.WebAPI": "1.0.0-*",
     "AspNetCore.Infra": "1.0.0-*"
