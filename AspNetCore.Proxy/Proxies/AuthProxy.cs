@@ -29,11 +29,7 @@ namespace AspNetCore.Proxy.Proxies
                 resp = await this._client
                     .SetQueryString("username", username)
                     .SetQueryString("password", password)
-                    .Get("api/token")
-                    .ContinueWith(async o =>
-                        await o.Result.GetResult<LogInResp>()
-                    )
-                    .Unwrap();
+                    .Get<LogInResp>("api/token");
             }
             catch (Exception)
             {

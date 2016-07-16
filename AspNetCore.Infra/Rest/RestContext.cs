@@ -72,22 +72,27 @@ namespace AspNetCore.Infra.Rest
         /// <param name="method">HttpMethod(Get, Post, Put, Delete)</param>
         /// <param name="hasResult">是否有回傳值</param>
         /// <returns>Response</returns>
-        private async Task<HttpResponseMessage> SendRequest(string resourceUrl, HttpMethod method)
+        private async Task<T> SendRequest<T>(string resourceUrl, HttpMethod method)
         {
-            HttpResponseMessage resp = null;
+            T result = default(T);
 
             HttpRequestMessage req = CreateRequest(resourceUrl, method);
 
             try
             {
-                resp = await this._client.SendAsync(req);
+                HttpResponseMessage resp = await this._client.SendAsync(req);
+                if (resp.IsSuccessStatusCode)
+                {
+                    string strResult = await resp.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<T>(strResult);
+                }
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return resp;
+            return result;
         }
 
         /// <summary>
@@ -129,7 +134,7 @@ namespace AspNetCore.Infra.Rest
         /// </summary>
         /// <param name="baseUrl">基礎位址</param>
         /// <returns>RestContext實體</returns>
-        public RestContext SetBaseAddress(string baseUrl)
+        public IRestContext SetBaseAddress(string baseUrl)
         {
             ConcretHttpClient();
             this._baseUrl = baseUrl;
@@ -142,7 +147,7 @@ namespace AspNetCore.Infra.Rest
         /// </summary>
         /// <param name="content">參數物件</param>
         /// <returns>RestContext實體</returns>
-        public RestContext SetBody(object content)
+        public IRestContext SetBody(object content)
         {
             this._body = new StringContent(
                 JsonConvert.SerializeObject(content),
@@ -158,7 +163,7 @@ namespace AspNetCore.Infra.Rest
         /// <param name="name">參數名稱</param>
         /// <param name="value">參數值</param>
         /// <returns>RestContext實體</returns>
-        public RestContext SetQueryString(string name, object value)
+        public IRestContext SetQueryString(string name, object value)
         {
             this._qryString.Add(name, value);
             return this;
@@ -170,7 +175,7 @@ namespace AspNetCore.Infra.Rest
         /// <param name="name">參數名稱</param>
         /// <param name="value">參數值</param>
         /// <returns>RestContext實體</returns>
-        public RestContext SetHeader(string name, string value)
+        public IRestContext SetHeader(string name, string value)
         {
             this._header.Add(name, value);
             return this;
@@ -182,7 +187,7 @@ namespace AspNetCore.Infra.Rest
         /// <param name="name">名稱</param>
         /// <param name="value">值</param>
         /// <returns>RestContext實體</returns>
-        public RestContext SetCoockies(string name, string value)
+        public IRestContext SetCoockies(string name, string value)
         {
             this._coockie.Add(new Uri(this._baseUrl), new Cookie(name, value));
             return this;
@@ -192,7 +197,7 @@ namespace AspNetCore.Infra.Rest
         /// 清除QueryString/Body
         /// </summary>
         /// <returns>RestContext實體</returns>
-        public RestContext CleanParameter()
+        public IRestContext CleanParameter()
         {
             this._qryString.Clear();
 
@@ -212,20 +217,20 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        public async Task<HttpResponseMessage> Get(string resourceUrl = "")
+        public async Task<T> Get<T>(string resourceUrl = "")
         {
-            HttpResponseMessage resp = null;
+            T result = default(T);
 
             try
             {
-                resp = await this.SendRequest(resourceUrl, HttpMethod.Get);
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Get);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return resp;
+            return result;
         }
 
         /// <summary>
@@ -234,20 +239,20 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        public async Task<HttpResponseMessage> Post(string resourceUrl = "")
+        public async Task<T> Post<T>(string resourceUrl = "")
         {
-            HttpResponseMessage resp = null;
+            T result = default(T);
 
             try
             {
-                resp = await this.SendRequest(resourceUrl, HttpMethod.Post);
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Post);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return resp;
+            return result;
         }
 
         /// <summary>
@@ -256,20 +261,20 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        public async Task<HttpResponseMessage> Put(string resourceUrl = "")
+        public async Task<T> Put<T>(string resourceUrl = "")
         {
-            HttpResponseMessage resp = null;
+            T result = default(T);
 
             try
             {
-                resp = await this.SendRequest(resourceUrl, HttpMethod.Put);
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Put);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return resp;
+            return result;
         }
 
         /// <summary>
@@ -278,20 +283,20 @@ namespace AspNetCore.Infra.Rest
         /// <typeparam name="T">Response資料型別</typeparam>
         /// <param name="resourceUrl">資源Url</param>
         /// <returns>Response</returns>
-        public async Task<HttpResponseMessage> Delete(string resourceUrl = "")
+        public async Task<T> Delete<T>(string resourceUrl = "")
         {
-            HttpResponseMessage resp = null;
+            T result = default(T);
 
             try
             {
-                resp = await this.SendRequest(resourceUrl, HttpMethod.Delete);
+                result = await this.SendRequest<T>(resourceUrl, HttpMethod.Delete);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            return resp;
+            return result;
         }
 
         #endregion Http
