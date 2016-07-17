@@ -5,6 +5,6 @@ namespace AspNetCore.Proxy.Interfaces
 {
     public interface IAuthProxy
     {
-        Task<LogInResp> LogIn(string username, string password);
+        Task<LogInOut> LogIn(string username, string password);
     }
 }

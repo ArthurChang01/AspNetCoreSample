@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCore.WebAPI.ViewModels.Values;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,20 +8,15 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.WebAPI.Controllers
 {
-    public class dto
-    {
-        public string Value { get; set; }
-    }
-
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        public dto Dto = new dto();
+        public Dto Dto = new Dto();
 
         // GET api/values
         [HttpGet]
         [Authorize]
-        public dto Get()
+        public Dto Get()
         {
             Dto.Value = "values";
 
@@ -30,7 +26,7 @@ namespace AspNetCore.WebAPI.Controllers
         // GET api/values/5
         [HttpGet("{id}")]
         [Authorize]
-        public dto Get(int id)
+        public Dto Get(int id)
         {
             Dto.Value = "values";
 
@@ -40,7 +36,7 @@ namespace AspNetCore.WebAPI.Controllers
         // POST api/values
         [HttpPost]
         [Authorize]
-        public dto Post([FromBody]string value)
+        public Dto Post([FromBody]string value)
         {
             Dto.Value = value;
 
@@ -50,7 +46,7 @@ namespace AspNetCore.WebAPI.Controllers
         // PUT api/values/5
         [HttpPut("{id}")]
         [Authorize]
-        public dto Put(int id, [FromBody]string value)
+        public Dto Put(int id, [FromBody]string value)
         {
             Dto.Value = string.Format("{0}-{1}", id, value);
 
@@ -60,7 +56,7 @@ namespace AspNetCore.WebAPI.Controllers
         // DELETE api/values/5
         [HttpDelete("{id}")]
         [Authorize]
-        public dto Delete(int id)
+        public Dto Delete(int id)
         {
             Dto.Value = "values";
 

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<test-run id="0" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1" portable-engine-version="3.3.0.0" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.399619">
+  <test-suite type="Assembly" id="1002" name="AspNetCore.Proxy.UT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" fullname="AspNetCore.Proxy.UT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.282167" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+    <settings>
+      <setting name="WorkDirectory" value="C:\Users\arthur\Desktop\AspNetCoreSample\AspNetCore.Proxy.UT" />
+    </settings>
+    <test-suite type="TestSuite" id="1003" name="AspNetCore" fullname="AspNetCore" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.274470" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+      <test-suite type="TestSuite" id="1004" name="Proxy" fullname="AspNetCore.Proxy" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.274240" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+        <test-suite type="TestSuite" id="1005" name="UT" fullname="AspNetCore.Proxy.UT" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.274098" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+          <test-suite type="TestFixture" id="1000" name="AuthProxyUT" fullname="AspNetCore.Proxy.UT.AuthProxyUT" classname="AspNetCore.Proxy.UT.AuthProxyUT" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.271871" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="1">
+            <test-case id="1001" name="LogIn" fullname="AspNetCore.Proxy.UT.AuthProxyUT.LogIn" methodname="LogIn" classname="AspNetCore.Proxy.UT.AuthProxyUT" runstate="Runnable" seed="1642187107" result="Passed" start-time="2016-07-17 09:21:40Z" end-time="2016-07-17 09:21:41Z" duration="0.232339" asserts="1" />
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

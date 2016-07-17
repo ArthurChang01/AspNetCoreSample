@@ -20,16 +20,16 @@ namespace AspNetCore.Proxy.Proxies
             this._client.SetBaseAddress(option.Value.IdentityServerUrl);
         }
 
-        public async Task<LogInResp> LogIn(string username, string password)
+        public async Task<LogInOut> LogIn(string username, string password)
         {
-            LogInResp resp = null;
+            LogInOut resp = null;
 
             try
             {
                 resp = await this._client
                     .SetQueryString("username", username)
                     .SetQueryString("password", password)
-                    .Get<LogInResp>("api/token");
+                    .Get<LogInOut>("api/token");
             }
             catch (Exception)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Proxy.Responses.Auth
 {
-    public class LogInResp
+    public class LogInOut
     {
         [JsonProperty(PropertyName = "access_token")]
         public string AccessToken { get; set; }

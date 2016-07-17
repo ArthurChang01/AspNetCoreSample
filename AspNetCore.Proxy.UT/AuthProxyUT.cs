@@ -38,15 +38,15 @@ namespace AspNetCore.Proxy.UT
             string username = "a@b.c",
                      password = "1234",
                      access_token = Guid.NewGuid().ToString();
-            LogInResp expect = new LogInResp { AccessToken = access_token };
+            LogInOut expect = new LogInOut { AccessToken = access_token };
 
             this.mockRest
-                .Setup(o => o.Get<LogInResp>(It.IsAny<string>()))
-                .Returns(Task.FromResult<LogInResp>(new LogInResp { AccessToken = access_token }));
+                .Setup(o => o.Get<LogInOut>(It.IsAny<string>()))
+                .Returns(Task.FromResult<LogInOut>(new LogInOut { AccessToken = access_token }));
             AuthProxy proxy = new AuthProxy(this.mockRest.Object, authOption);
 
             //Act
-            LogInResp actual = await proxy.LogIn(username, password);
+            LogInOut actual = await proxy.LogIn(username, password);
 
             //Assert
             Assert.AreEqual(expect.AccessToken, actual.AccessToken);

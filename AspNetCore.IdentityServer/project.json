@@ -25,6 +25,7 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "Swashbuckle.SwaggerGen": "6.0.0-beta901",
     "Swashbuckle.SwaggerUi": "6.0.0-beta901",
+    "AutoMapper": "5.0.2",
     "AspNetCore.Infra": "1.0.0-*",
     "AspNetCore.Proxy": "1.0.0-*"
   },

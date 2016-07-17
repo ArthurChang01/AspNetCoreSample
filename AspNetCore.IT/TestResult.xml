@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<test-run id="0" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" portable-engine-version="3.3.0.0" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.879653">
+  <test-suite type="Assembly" id="1002" name="AspNetCore.IT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" fullname="AspNetCore.IT, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.770349" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <settings>
+      <setting name="WorkDirectory" value="C:\Users\arthur\Desktop\AspNetCoreSample\AspNetCore.IT" />
+    </settings>
+    <test-suite type="TestSuite" id="1003" name="AspNetCore" fullname="AspNetCore" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.761695" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-suite type="TestSuite" id="1004" name="IT" fullname="AspNetCore.IT" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.761417" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <test-suite type="TestFixture" id="1000" name="GetValues" fullname="AspNetCore.IT.GetValues" classname="AspNetCore.IT.GetValues" runstate="Runnable" testcasecount="1" result="Passed" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.758934" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1001" name="IT_GetValues" fullname="AspNetCore.IT.GetValues.IT_GetValues" methodname="IT_GetValues" classname="AspNetCore.IT.GetValues" runstate="Runnable" seed="717522866" result="Passed" start-time="2016-07-17 09:21:52Z" end-time="2016-07-17 09:21:55Z" duration="2.719850" asserts="0" />
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

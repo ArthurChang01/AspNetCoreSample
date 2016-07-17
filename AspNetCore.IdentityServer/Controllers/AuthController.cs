@@ -1,5 +1,7 @@
-﻿using AspNetCore.Proxy.Interfaces;
+﻿using AspNetCore.IdentityServer.ViewModels.Auth;
+using AspNetCore.Proxy.Interfaces;
 using AspNetCore.Proxy.Responses.Auth;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,23 +21,27 @@ namespace AspNetCore.IdentityServer.Controllers
         public AuthController(IAuthProxy proxy)
         {
             this._proxy = proxy;
+
+            Mapper.Initialize(
+                cfg => cfg.CreateMap<LogInOut, LogInResp>()
+            );
         }
 
         /// <summary>
         /// 登入
         /// </summary>
-        /// <param name="username">帳戶(Email)</param>
-        /// <param name="password">密碼</param>
+        /// <param name="req">輸入參數</param>
         /// <returns>登入結果</returns>
-        [HttpGet("LogIn/{username}/{password}")]
+        [HttpGet("LogIn")]
         [Produces(typeof(LogInResp))]
-        public async Task<IActionResult> LogIn(string username, string password)
+        public async Task<IActionResult> LogIn([FromQuery]LogInReq req)
         {
             LogInResp resp = null;
 
             try
             {
-                resp = await this._proxy.LogIn(username, password);
+                var result = await this._proxy.LogIn(req.UserName, req.Password);
+                resp = Mapper.Map<LogInOut, LogInResp>(result);
             }
             catch (Exception ex)
             {
